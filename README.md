@@ -1,6 +1,6 @@
 # Code Challenge
 
-This repository contains solutions to a 3-part coding challenge focused on frontend development and code analysis skills.
+This repository contains solutions to a three-part coding challenge.
 
 ## Problems Overview
 
@@ -22,6 +22,7 @@ cd src/problem2/currency-swap-react
 npm install
 npm run dev
 ```
+<img width="811" alt="Screenshot 2025-06-11 at 20 40 57" src="https://github.com/user-attachments/assets/20c80175-c57d-46ba-a0cf-4519923d416d" />
 
 ### Problem 3: Messy React
 Code review and refactoring of a React component.
