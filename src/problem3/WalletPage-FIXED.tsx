@@ -11,6 +11,8 @@ interface WalletBalance {
   amount: number;
   blockchain: string; // Added missing property
 }
+
+// Extend WalletBalance to add specific fields without repeating properties
 interface FormattedWalletBalance extends WalletBalance {
   formatted: string;
   usdValue: number;
