@@ -1,0 +1,240 @@
+@import "./variables.css";
+
+.currency-swap-app {
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-3xl);
+  width: 100vw;
+  background: var(--gradient-background);
+}
+
+.container {
+  width: 100%;
+  max-width: var(--container-max-width);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.app-title {
+  font-size: var(--font-size-4xl);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-white);
+  text-align: center;
+  margin-bottom: var(--space-3xl);
+}
+
+.currency-swap-form {
+  background: var(--color-white);
+  border-radius: var(--radius-xl);
+  padding: var(--space-5xl);
+  width: 100%;
+  max-width: var(--form-max-width);
+}
+
+.currency-swap-form__title {
+  font-size: var(--font-size-2xl);
+  font-weight: var(--font-weight-semibold);
+  margin-bottom: var(--space-3xl);
+  text-align: center;
+  color: var(--color-text-primary);
+}
+
+.currency-swap-form__input-group {
+  margin-bottom: var(--space-2xl);
+}
+
+.currency-swap-form__label {
+  display: block;
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-secondary);
+  margin-bottom: var(--space-md);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.currency-swap-form__input-container {
+  display: flex;
+  border: 2px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  height: var(--input-height);
+}
+
+.currency-swap-form__input {
+  flex: 1;
+  padding: var(--space-xl);
+  border: none;
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-medium);
+  outline: none;
+  background: var(--color-white);
+  color: var(--color-text-primary);
+  height: 100%;
+  font-family: var(--font-family);
+}
+
+.currency-swap-form__input::placeholder {
+  color: var(--color-text-muted);
+}
+
+.currency-swap-form__input--readonly {
+  background: var(--color-background-light);
+  color: var(--color-text-secondary);
+}
+
+.currency-swap-form__select-wrapper {
+  position: relative;
+  display: inline-block;
+  width: 150px;
+}
+
+.currency-swap-form__select-wrapper::after {
+  content: "";
+  position: absolute;
+  right: var(--space-lg);
+  top: 50%;
+  transform: translateY(-50%);
+  width: 0;
+  height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-top: 6px solid var(--color-text-secondary);
+  pointer-events: none;
+}
+
+.currency-swap-form__select {
+  padding: var(--space-xl) var(--space-lg);
+  border: none;
+  border-left: 2px solid var(--color-border);
+  background: var(--color-background-light);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+  cursor: pointer;
+  min-width: 150px;
+  height: 100%;
+  font-family: var(--font-family);
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  outline: none;
+  padding-right: 2.5rem;
+  width: 100%;
+}
+
+.currency-swap-form__swap-section {
+  text-align: center;
+  margin: var(--space-3xl) 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.currency-swap-form__swap-button {
+  background: var(--gradient-primary);
+  color: var(--color-white);
+  border: none;
+  border-radius: var(--radius-full);
+  width: var(--button-height);
+  height: var(--button-height);
+  cursor: pointer;
+  font-size: var(--font-size-xl);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-family);
+}
+
+.currency-swap-form__swap-button:disabled {
+  background: var(--color-disabled);
+  cursor: not-allowed;
+}
+
+.currency-swap-form__rate-info {
+  background: var(--color-success-bg);
+  border: 1px solid var(--color-success-border);
+  border-radius: var(--radius-md);
+  padding: var(--space-lg);
+  margin: var(--space-2xl) 0;
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-success);
+  text-align: center;
+}
+
+.currency-swap-form__submit-button {
+  width: 100%;
+  background: var(--gradient-primary);
+  color: var(--color-white);
+  border: none;
+  border-radius: var(--radius-lg);
+  padding: var(--space-xl) var(--space-2xl);
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-semibold);
+  cursor: pointer;
+  margin-top: var(--space-2xl);
+  font-family: var(--font-family);
+}
+
+.currency-swap-form__submit-button--disabled {
+  background: var(--color-disabled);
+  cursor: not-allowed;
+}
+
+.currency-swap-form__submit-button--loading {
+  opacity: 0.8;
+}
+
+.message {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  margin-top: var(--space-lg);
+  padding: var(--space-md);
+  border-radius: var(--radius-md);
+  text-align: center;
+  font-family: var(--font-family);
+}
+
+.message--error {
+  color: var(--color-error);
+  background: var(--color-error-bg);
+  border: 1px solid var(--color-error-border);
+}
+
+.message--success {
+  color: var(--color-success);
+  background: var(--color-success-bg);
+  border: 1px solid var(--color-success-border);
+}
+
+@media (max-width: 640px) {
+  :root {
+    --input-height: 50px;
+    --container-max-width: 90%;
+  }
+
+  .currency-swap-form {
+    padding: var(--space-3xl);
+    max-width: 100%;
+  }
+
+  .app-title {
+    font-size: var(--font-size-3xl);
+  }
+
+  .currency-swap-form__input {
+    padding: var(--space-lg);
+  }
+
+  .currency-swap-form__select {
+    padding: var(--space-lg) var(--space-md);
+    min-width: 100px;
+    padding-right: var(--space-3xl);
+    background-size: var(--font-size-sm);
+  }
+}
