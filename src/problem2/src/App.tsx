@@ -96,7 +96,7 @@ const App = () => {
       return "Please select tokens to swap";
     }
     if (fromToken === toToken) {
-      return "Please select different tokens for swapping";
+      return "Please select different tokens to swap";
     }
     if (!fromAmount) {
       return "Please enter an amount to swap";
