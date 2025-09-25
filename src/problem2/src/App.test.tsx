@@ -38,8 +38,67 @@ describe('App', () => {
 
   test('submit button is disabled initially', () => {
     render(<App />);
-    const submitButton = screen.getByRole('button', { name: /select tokens/i });
+    const submitButton = screen.getByRole('button', { name: /swap/i });
     expect(submitButton).toBeDisabled();
+  });
+
+
+  test('swap button is disabled when same tokens selected', async () => {
+    render(<App />);
+    
+    // Select BTC for from token
+    const selectButtons = screen.getAllByText('Select token');
+    fireEvent.click(selectButtons[0]);
+    
+    // Wait for modal and select BTC
+    await waitFor(() => {
+      expect(screen.getByPlaceholderText('Search name / address')).toBeInTheDocument();
+    });
+    
+    const popularTokenButtons = screen.getAllByRole('button');
+    const btcPopularButton = popularTokenButtons.find(button => 
+      button.textContent?.includes('BTC') && button.className.includes('popular-token-button')
+    );
+    
+    expect(btcPopularButton).toBeTruthy();
+    fireEvent.click(btcPopularButton!);
+    
+    // Wait for modal to close and BTC to be selected
+    await waitFor(() => {
+      expect(screen.queryByPlaceholderText('Search name / address')).not.toBeInTheDocument();
+      expect(screen.getByText('BTC')).toBeInTheDocument();
+    });
+    
+    // Now click the remaining "Select token" button for the "To" field
+    const remainingSelectButton = screen.getByText('Select token');
+    fireEvent.click(remainingSelectButton);
+    
+    // Wait for modal to open again
+    await waitFor(() => {
+      expect(screen.getByPlaceholderText('Search name / address')).toBeInTheDocument();
+    });
+    
+    // Select BTC again for the "To" token
+    const popularTokenButtons2 = screen.getAllByRole('button');
+    const btcPopularButton2 = popularTokenButtons2.find(button => 
+      button.textContent?.includes('BTC') && button.className.includes('popular-token-button')
+    );
+    
+    expect(btcPopularButton2).toBeTruthy();
+    fireEvent.click(btcPopularButton2!);
+    
+    // Wait for modal to close and check if swap button is disabled
+    await waitFor(() => {
+      expect(screen.queryByPlaceholderText('Search name / address')).not.toBeInTheDocument();
+      
+      // Find swap button and check if disabled
+      const swapButtons = screen.getAllByRole('button');
+      const swapButton = swapButtons.find(button => 
+        button.className.includes('swap-button')
+      );
+      
+      expect(swapButton).toBeDisabled();
+    });
   });
 
   test('closes modal when clicking close button', () => {
@@ -113,36 +172,6 @@ describe('App', () => {
       fireEvent.click(swapButton);
       // Should not throw error
       expect(swapButton).toBeInTheDocument();
-    }
-  });
-
-  test('button text changes when tokens selected', async () => {
-    render(<App />);
-    
-    // Initially shows "Select tokens"
-    expect(screen.getByText('Select tokens')).toBeInTheDocument();
-    
-    // Select from token
-    const selectButtons = screen.getAllByText('Select token');
-    fireEvent.click(selectButtons[0]);
-    
-    // Click popular BTC token
-    const popularTokenButtons = screen.getAllByRole('button');
-    const btcPopularButton = popularTokenButtons.find(button => 
-      button.textContent?.includes('BTC') && button.className.includes('popular-token-button')
-    );
-    
-    if (btcPopularButton) {
-      fireEvent.click(btcPopularButton);
-      
-      await waitFor(() => {
-        // After selecting first token, should still show "Select tokens" or similar
-        const buttons = screen.getAllByRole('button');
-        const hasSelectText = buttons.some(button => 
-          button.textContent?.includes('Select') || button.textContent?.includes('Enter')
-        );
-        expect(hasSelectText).toBeTruthy();
-      });
     }
   });
 
@@ -228,4 +257,4 @@ describe('App', () => {
     const tokenList = document.querySelector('.token-list');
     expect(tokenList?.children).toHaveLength(4);
   });
-}); 
+});

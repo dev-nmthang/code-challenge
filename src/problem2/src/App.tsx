@@ -11,8 +11,6 @@ const calculateExchangeRate = (
   toToken: Token,
   amount: number
 ): number => {
-  if (!fromToken || !toToken || amount <= 0) return 0;
-  
   return (amount * fromToken.price) / toToken.price;
 };
 
@@ -80,6 +78,10 @@ const App = () => {
   };
 
   const handleSwapTokens = () => {
+    if (fromToken === toToken) {
+      return;
+    }
+
     const tempToken = fromToken;
     const tempAmount = fromAmount;
     setFromToken(toToken);
@@ -87,6 +89,22 @@ const App = () => {
     setFromAmount(toAmount);
     setToAmount(tempAmount);
   };
+
+  // Get status message
+  const getStatusMessage = () => {
+    if (!fromToken || !toToken) {
+      return "Please select tokens to swap";
+    }
+    if (fromToken === toToken) {
+      return "Please select different tokens for swapping";
+    }
+    if (!fromAmount) {
+      return "Please enter an amount to swap";
+    }
+    return null;
+  };
+
+  const statusMessage = getStatusMessage();
 
   if (isLoading) {
     return (
@@ -103,15 +121,20 @@ const App = () => {
     return (
       <div className="app">
         <div className="error-container">
-          <p>Error loading tokens</p>
-          <button onClick={() => window.location.reload()}>Try Again</button>
+          <p>Error loading tokens. Please try again.</p>
+          <button onClick={() => window.location.reload()}>Retry</button>
         </div>
       </div>
     );
   }
 
   const isDisabled =
-    !fromToken || !toToken || !fromAmount || !toAmount || isSwapping;
+    !fromToken ||
+    !toToken ||
+    !fromAmount ||
+    !toAmount ||
+    isSwapping ||
+    fromToken === toToken; // Prevent swapping same token
 
   return (
     <div className="app">
@@ -162,6 +185,7 @@ const App = () => {
                 type="button"
                 className="swap-button"
                 onClick={handleSwapTokens}
+                disabled={!fromToken || !toToken || fromToken === toToken}
               >
                 <MdSwapVert />
               </button>
@@ -175,8 +199,8 @@ const App = () => {
                 <input
                   className="amount-input"
                   value={toAmount}
-                  placeholder="0.0"
                   readOnly
+                  placeholder="0.0"
                 />
                 <div
                   className="token-select"
@@ -198,17 +222,24 @@ const App = () => {
               </div>
             </div>
 
-            {selectedFromToken && selectedToToken && fromAmount && toAmount && (
+            {selectedFromToken && selectedToToken && fromAmount && !isDisabled && (
               <div className="exchange-rate">
                 <div className="rate-info">
                   <span>
-                    1 {fromToken} ={" "}
+                    1 {selectedFromToken.currency} ={" "}
                     {(selectedFromToken.price / selectedToToken.price).toFixed(
                       6
                     )}{" "}
-                    {toToken}
+                    {selectedToToken.currency}
                   </span>
                 </div>
+              </div>
+            )}
+
+            {/* Status message */}
+            {statusMessage && (
+              <div className="status-message">
+                <p>{statusMessage}</p>
               </div>
             )}
 
@@ -222,10 +253,6 @@ const App = () => {
                   <div className="button-spinner"></div>
                   <span>Swapping...</span>
                 </div>
-              ) : !fromToken || !toToken ? (
-                "Select tokens"
-              ) : !fromAmount ? (
-                "Enter amount"
               ) : (
                 "Swap"
               )}
