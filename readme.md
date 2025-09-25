@@ -22,6 +22,5 @@ npm run test # for running the unit tests
 ```bash
 cd src/problem3
 npm install
-cd src/problem3
 npm run test
 ```
